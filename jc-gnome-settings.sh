@@ -74,84 +74,24 @@ gset_terminal() {
   return 0
 }
 
-main() {
-  gset org.gnome.software allow-updates false || true
-  gset org.gnome.software download-updates false || true
+gnome_privacy() {
+  gset org.gnome.desktop.privacy hide-identity true
+  gset org.gnome.desktop.notifications show-in-lock-screen false
+  gset org.gnome.desktop.privacy old-files-age 7        # Days to keep trash/temp files
+  gset org.gnome.desktop.privacy recent-files-max-age 2 # Days to remember recently used files
+  gset org.gnome.desktop.privacy remember-recent-files false
+  gset org.gnome.desktop.privacy remove-old-temp-files true
+  gset org.gnome.desktop.privacy show-full-name-in-top-bar false
+  gset org.gnome.desktop.search-providers disable-external true
+}
 
-  gset org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
-
-  # To eliminate the default 60 second delay when logging out
-  gset org.gnome.SessionManager logout-prompt false
-
-  # https://askubuntu.com/questions/1073568/preventing-window-resizing-after-resume
-  gset org.gnome.desktop.interface scaling-factor 1
-
-  gset org.gnome.desktop.datetime automatic-timezone false
-  gset org.gnome.desktop.interface clock-format 12h
-  gset org.gnome.desktop.interface clock-show-date true
-  gset org.gnome.desktop.interface clock-show-weekday true
-  gset org.gnome.desktop.interface cursor-theme Adwaita
-  gset org.gnome.desktop.interface document-font-name 'DejaVu Sans 10'
-  gset org.gnome.desktop.interface enable-animations true
-  gset org.gnome.desktop.interface font-antialiasing 'rgba' # rgba / grayscale
-  gset org.gnome.desktop.interface font-hinting 'medium'    # slight / medium / full
-  gset org.gnome.desktop.interface font-name 'DejaVu Sans 10'
-  gset org.gnome.desktop.interface gtk-theme Adwaita-dark # HighContrastInverse / Adwaita-dark
-  gset org.gnome.desktop.interface icon-theme Adwaita
-  gset org.gnome.desktop.interface monospace-font-name 'Inconsolata Bold 10'
-  gset org.gnome.desktop.interface show-battery-percentage true
+gnome_security() {
   gset org.gnome.desktop.media-handling automount false
   gset org.gnome.desktop.media-handling automount-open false
   gset org.gnome.desktop.media-handling autorun-never true
-  gset org.gnome.desktop.notifications show-in-lock-screen false
-  # gset org.gnome.desktop.input-sources xkb-options "['caps:none']" # disable caps-lock
-  # gset org.gnome.desktop.input-sources xkb-options "['caps:none', 'numpad:mac']"
-  # gset org.gnome.desktop.input-sources xkb-options "['caps:none', 'numpad:mac', 'lv3:ralt_switch']"
-  gset org.gnome.desktop.input-sources xkb-options \
-    "['caps:none', 'numpad:mac', 'compose:ralt']"
-  gset org.gnome.desktop.peripherals.keyboard repeat-interval 9
-  gset org.gnome.desktop.peripherals.keyboard delay 300
-  gset org.gnome.desktop.peripherals.keyboard numlock-state true
-  gset org.gnome.desktop.peripherals.keyboard remember-numlock-state true
-  gset org.gnome.desktop.peripherals.keyboard repeat true
-  gset org.gnome.desktop.peripherals.mouse accel-profile adaptive
-  gset org.gnome.desktop.peripherals.mouse middle-click-emulation true
-  gset org.gnome.desktop.peripherals.mouse natural-scroll true
-  # gset org.gnome.desktop.peripherals.mouse natural-scroll false
-  # gset org.gnome.desktop.peripherals.mouse speed 1
-  # gset org.gnome.desktop.peripherals.touchpad speed 0.8
-  gset org.gnome.desktop.peripherals.touchpad disable-while-typing true
-  gset org.gnome.desktop.peripherals.touchpad middle-click-emulation true
-  gset org.gnome.desktop.peripherals.touchpad natural-scroll true
-  gset org.gnome.desktop.peripherals.touchpad tap-to-click true
-  gset org.gnome.desktop.peripherals.trackball accel-profile adaptive
-  gset org.gnome.desktop.peripherals.trackball middle-click-emulation true
-  gset org.gnome.desktop.peripherals.trackball scroll-wheel-emulation-button 3
-  gset org.gnome.desktop.privacy hide-identity true
+}
 
-  # Number of days to keep trash and temporary files
-  gset org.gnome.desktop.privacy old-files-age 7
-
-  # Number of days to remember recently used files
-  gset org.gnome.desktop.privacy recent-files-max-age 2
-
-  gset org.gnome.desktop.privacy remember-recent-files false
-  gset org.gnome.desktop.privacy remove-old-temp-files true
-
-  # Whether to remove old files from the trash automatically
-  # (old-files-age if used)
-  gset org.gnome.desktop.privacy remove-old-trash-files true
-
-  gset org.gnome.desktop.privacy show-full-name-in-top-bar false
-  gset org.gnome.desktop.search-providers disable-external true
-  gset org.gnome.desktop.sound event-sounds false
-  gset org.gnome.desktop.wm.preferences audible-bell false
-  gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
-
-  # Resize with Super/Alt+Right Click
-  gset org.gnome.desktop.wm.preferences resize-with-right-button true
-
-  gset org.gnome.desktop.wm.preferences titlebar-font 'DejaVu Sans 10'
+gnome_mutter() {
   gset org.gnome.mutter attach-modal-dialogs false
   gset org.gnome.mutter center-new-windows true
 
@@ -169,15 +109,62 @@ main() {
   # Another fix for
   # https://askubuntu.com/questions/154377/how-do-i-disable-auto-maximizing-of-newly-launched-windows-in-gnome
   gset org.gnome.mutter auto-maximize false
+}
 
-  gset org.gnome.settings-daemon.plugins.media-keys volume-step 2                     # adjust volume in smaller steps
-  gset org.gnome.settings-daemon.plugins.media-keys volume-down-precise-static "['']" # ['<Shift>XF86AudioLowerVolume', '<Ctrl><Shift>XF86AudioLowerVolume']
-  gset org.gnome.settings-daemon.plugins.media-keys volume-down-quiet-static "['']"   # ['<Alt>XF86AudioLowerVolume', '<Alt><Ctrl>XF86AudioLowerVolume']
-  gset org.gnome.settings-daemon.plugins.media-keys volume-down-static "['']"         # Default: ['XF86AudioLowerVolume', '<Ctrl>XF86AudioLowerVolume']
-  gset org.gnome.settings-daemon.plugins.media-keys volume-up-precise-static "['']"   # ['<Shift>XF86AudioRaiseVolume', '<Ctrl><Shift>XF86AudioRaiseVolume']
-  gset org.gnome.settings-daemon.plugins.media-keys volume-up-quiet-static "['']"     # ['<Alt>XF86AudioRaiseVolume', '<Alt><Ctrl>XF86AudioRaiseVolume']
-  gset org.gnome.settings-daemon.plugins.media-keys volume-up-static "['']"           # Default: ['XF86AudioRaiseVolume', '<Ctrl>XF86AudioRaiseVolume']
-  gset org.gnome.shell disable-user-extensions true
+gnome_power() {
+  gset org.gnome.settings-daemon.plugins.power idle-dim true                       # dim screen after a period of inactivity
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # don't suspend when on AC
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend # set suspend information
+  gset org.gnome.desktop.screensaver idle-activation-enabled true
+  gset org.gnome.desktop.screensaver lock-enabled true
+  gset org.gnome.desktop.session idle-delay 300                                   # time in seconds before session is considered idle
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800     # 30 min
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900 # 15 min
+  gset org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
+  gset org.gnome.desktop.wm.preferences audible-bell false
+  gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
+
+  # Resize with Super/Alt+Right Click
+  gset org.gnome.desktop.wm.preferences resize-with-right-button true
+}
+
+main() {
+  gnome_security
+  gnome_privacy
+  gnome_power
+
+  # To eliminate the default 60 second delay when logging out
+  gset org.gnome.SessionManager logout-prompt false
+
+  gset org.gnome.desktop.interface enable-animations true
+  gset org.gnome.desktop.interface show-battery-percentage true
+
+  gset org.gnome.desktop.peripherals.keyboard repeat-interval 9
+  gset org.gnome.desktop.peripherals.keyboard delay 300
+  gset org.gnome.desktop.peripherals.keyboard numlock-state true
+  gset org.gnome.desktop.peripherals.keyboard remember-numlock-state true
+  gset org.gnome.desktop.peripherals.keyboard repeat true
+
+  gset org.gnome.desktop.peripherals.mouse accel-profile adaptive
+  gset org.gnome.desktop.peripherals.mouse middle-click-emulation true
+  gset org.gnome.desktop.peripherals.mouse natural-scroll true
+  # gset org.gnome.desktop.peripherals.mouse natural-scroll false
+  # gset org.gnome.desktop.peripherals.mouse speed 1
+  # gset org.gnome.desktop.peripherals.touchpad speed 0.8
+
+  gset org.gnome.desktop.peripherals.touchpad disable-while-typing true
+  gset org.gnome.desktop.peripherals.touchpad middle-click-emulation true
+  gset org.gnome.desktop.peripherals.touchpad natural-scroll true
+  gset org.gnome.desktop.peripherals.touchpad tap-to-click true
+
+  gset org.gnome.desktop.peripherals.trackball accel-profile adaptive
+  gset org.gnome.desktop.peripherals.trackball middle-click-emulation true
+  gset org.gnome.desktop.peripherals.trackball scroll-wheel-emulation-button 3
+
+  gset org.gnome.desktop.sound event-sounds false
+
+  gnome_mutter
+
   gset org.gnome.shell.app-switcher current-workspace-only true
   gset org.gtk.Settings.FileChooser sort-directories-first true
 
@@ -187,28 +174,6 @@ main() {
   gset org.gnome.desktop.screensaver lock-delay 0
 
   gset org.gnome.desktop.datetime automatic-timezone false
-  if [[ $USER = "media" ]]; then
-    gset org.gnome.settings-daemon.plugins.power idle-dim false                      # do not dim screen after a period of inactivity
-    gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # suspend when on AC
-    gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type nothing # set suspend information
-    gset org.gnome.desktop.screensaver idle-activation-enabled false
-    gset org.gnome.desktop.screensaver lock-enabled false
-
-    gset org.gnome.desktop.session idle-delay 0 # time in seconds before session is considered idle
-    gset org.gnome.system.locale region en_US.UTF-8
-  else
-    gset org.gnome.settings-daemon.plugins.power idle-dim true                       # dim screen after a period of inactivity
-    gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # don't suspend when on AC
-    gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend # set suspend information
-    gset org.gnome.desktop.screensaver idle-activation-enabled true
-    gset org.gnome.desktop.screensaver lock-enabled true
-
-    gset org.gnome.desktop.session idle-delay 300                                   # time in seconds before session is considered idle
-    gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800     # 30 min
-    gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900 # 15 min
-    # gset org.gnome.system.locale region en_CA.UTF-8
-    gset org.gnome.system.locale region en_US.UTF-8
-  fi
 
   gset org.gnome.desktop.sound allow-volume-above-100-percent false
 
