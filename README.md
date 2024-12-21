@@ -1,5 +1,5 @@
 # jc-gnome-settings - JC's GNOME Settings
-![License](https://img.shields.io/github/license/jamescherti/watch-gnome-xfconf)
+![License](https://img.shields.io/github/license/jamescherti/jc-gnome-settings)
 
 This project provides the `jc-gnome-settings.sh` script, which holds James Cherti's settings to customize the GNOME desktop environment, including window management, notifications, desktop behavior, keyboard settings, and more, to enhance the user experience.
 
