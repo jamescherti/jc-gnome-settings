@@ -210,23 +210,19 @@ main() {
     gset org.gnome.system.locale region en_US.UTF-8
   fi
 
-  if [[ $USER = "work" ]]; then
-    gset org.gnome.desktop.sound allow-volume-above-100-percent false
-  else
-    gset org.gnome.desktop.sound allow-volume-above-100-percent false
-  fi
+  gset org.gnome.desktop.sound allow-volume-above-100-percent false
 
-  if which gedit >/dev/null 2>&1; then
+  if type -P gedit >/dev/null 2>&1; then
     gset org.gnome.gedit.preferences.editor scheme 'oblivion'
   fi
 
-  if which gthumb >/dev/null 2>&1; then
+  if type -P gthumb >/dev/null 2>&1; then
     gset org.gnome.gthumb.browser sort-type 'file::name'
     gset org.gnome.gthumb.comments synchronize false
     gset org.gnome.gthumb.browser go-to-last-location false
   fi
 
-  if which meld >/dev/null 2>&1; then
+  if type -P meld >/dev/null 2>&1; then
     gset org.gnome.meld custom-font 'monospace 16'
     gset org.gnome.meld highlight-current-line false
     gset org.gnome.meld use-system-font false
@@ -234,11 +230,11 @@ main() {
     gset org.gnome.meld.WindowState is-maximized true
   fi
 
-  if which evince >/dev/null 2>&1; then
+  if type -P evince >/dev/null 2>&1; then
     gset org.gnome.Evince page-cache-size 100
   fi
 
-  if which nautilus >/dev/null 2>&1; then
+  if type -P nautilus >/dev/null 2>&1; then
     gset org.gnome.nautilus.preferences click-policy single # single / double
     gset org.gnome.nautilus.preferences default-sort-order name
     gset org.gnome.nautilus.preferences show-directory-item-counts never
