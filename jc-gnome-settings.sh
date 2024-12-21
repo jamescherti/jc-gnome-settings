@@ -75,39 +75,10 @@ gset_terminal() {
 }
 
 main() {
-  if [[ $MODIFY_BACKGROUND -ne 0 ]]; then
-    gset org.gnome.desktop.background picture-uri "file://$GNOME_BACKGROUND_PATH"
-  fi
-
   gset org.gnome.software allow-updates false || true
   gset org.gnome.software download-updates false || true
 
   gset org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
-  gset org.gnome.desktop.wm.keybindings activate-window-menu '@as []'
-  gset org.gnome.desktop.wm.keybindings close "['<Control><Alt>z']"
-  gset org.gnome.desktop.wm.keybindings maximize "['<Super>k']"
-  gset org.gnome.mutter.keybindings toggle-tiled-left "['<Super>h']"
-  gset org.gnome.mutter.keybindings toggle-tiled-right "['<Super>l']"
-  gset org.gnome.settings-daemon.plugins.media-keys decrease-text-size "['<Super>minus']"
-  gset org.gnome.settings-daemon.plugins.media-keys increase-text-size "['<Shift><Super>equal']"
-
-  gset org.gnome.shell.keybindings toggle-overview "['<Control><Alt>w']"
-  gset org.gnome.desktop.wm.keybindings \
-    switch-to-workspace-right "['<Control><Alt>l']"
-  gset org.gnome.desktop.wm.keybindings move-to-workspace-left \
-    "['<Shift><Control><Alt>h']"
-  gset org.gnome.desktop.wm.keybindings move-to-workspace-right \
-    "['<Shift><Control><Alt>l']"
-  gset org.gnome.desktop.wm.keybindings \
-    switch-to-workspace-left "['<Control><Alt>h']"
-  gset org.gnome.desktop.wm.keybindings \
-    cycle-windows "['<Alt>Tab']"
-  gset org.gnome.desktop.wm.keybindings \
-    cycle-windows-backward "['<Shift><Alt>Tab']"
-  gset org.gnome.desktop.wm.keybindings \
-    switch-applications "@as []"
-  gset org.gnome.desktop.wm.keybindings \
-    switch-applications-backward " @as []"
 
   # To eliminate the default 60 second delay when logging out
   gset org.gnome.SessionManager logout-prompt false
@@ -276,11 +247,6 @@ main() {
     gset org.gnome.nautilus.window-state initial-size "(1600, 800)"
     # gset org.gnome.nautilus.window-state sidebar-width 254
   fi
-
-  gset org.gnome.settings-daemon.plugins.media-keys screensaver "['<Super>s']"
-  gset org.gnome.desktop.wm.keybindings minimize "['<Control><Alt>d']"
-
-  run gsettings reset org.gnome.settings-daemon.plugins.media-keys home
 }
 
 init
