@@ -111,34 +111,7 @@ gnome_mutter() {
   gset org.gnome.mutter auto-maximize false
 }
 
-gnome_power() {
-  gset org.gnome.settings-daemon.plugins.power idle-dim true                       # dim screen after a period of inactivity
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # don't suspend when on AC
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend # set suspend information
-  gset org.gnome.desktop.screensaver idle-activation-enabled true
-  gset org.gnome.desktop.screensaver lock-enabled true
-  gset org.gnome.desktop.session idle-delay 300                                   # time in seconds before session is considered idle
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800     # 30 min
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900 # 15 min
-  gset org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
-  gset org.gnome.desktop.wm.preferences audible-bell false
-  gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
-
-  # Resize with Super/Alt+Right Click
-  gset org.gnome.desktop.wm.preferences resize-with-right-button true
-}
-
-main() {
-  gnome_security
-  gnome_privacy
-  gnome_power
-
-  # To eliminate the default 60 second delay when logging out
-  gset org.gnome.SessionManager logout-prompt false
-
-  gset org.gnome.desktop.interface enable-animations true
-  gset org.gnome.desktop.interface show-battery-percentage true
-
+gnome_peripheral() {
   gset org.gnome.desktop.peripherals.keyboard repeat-interval 9
   gset org.gnome.desktop.peripherals.keyboard delay 300
   gset org.gnome.desktop.peripherals.keyboard numlock-state true
@@ -161,20 +134,45 @@ main() {
   gset org.gnome.desktop.peripherals.trackball middle-click-emulation true
   gset org.gnome.desktop.peripherals.trackball scroll-wheel-emulation-button 3
 
-  gset org.gnome.desktop.sound event-sounds false
+}
 
-  gnome_mutter
-
-  gset org.gnome.shell.app-switcher current-workspace-only true
-  gset org.gtk.Settings.FileChooser sort-directories-first true
-
+gnome_power() {
   gset org.gnome.settings-daemon.plugins.power power-button-action suspend
-
+  gset org.gnome.settings-daemon.plugins.power idle-dim true                       # dim screen after a period of inactivity
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # don't suspend when on AC
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend # set suspend information
+  gset org.gnome.desktop.screensaver idle-activation-enabled true
+  gset org.gnome.desktop.screensaver lock-enabled true
   # The num of seconds after screensaver activation before locking the screen
   gset org.gnome.desktop.screensaver lock-delay 0
+  gset org.gnome.desktop.session idle-delay 300                                   # time in seconds before session is considered idle
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800     # 30 min
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900 # 15 min
+  gset org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
+  gset org.gnome.desktop.wm.preferences audible-bell false
+  gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
 
+  # Resize with Super/Alt+Right Click
+  gset org.gnome.desktop.wm.preferences resize-with-right-button true
+}
+
+main() {
+  gnome_security
+  gnome_privacy
+  gnome_power
+  gnome_peripheral
+  gnome_mutter
+
+  # To eliminate the default 60 second delay when logging out
+  gset org.gnome.SessionManager logout-prompt false
+
+  gset org.gnome.desktop.interface enable-animations true
+  gset org.gnome.desktop.interface show-battery-percentage true
+  gset org.gnome.shell.app-switcher current-workspace-only true
+  gset org.gtk.Settings.FileChooser sort-directories-first true
   gset org.gnome.desktop.datetime automatic-timezone false
 
+  gset org.gnome.desktop.sound event-sounds false
   gset org.gnome.desktop.sound allow-volume-above-100-percent false
 
   if type -P gedit >/dev/null 2>&1; then
