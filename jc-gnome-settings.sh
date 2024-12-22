@@ -168,6 +168,8 @@ main() {
 
   gset org.gnome.desktop.interface enable-animations true
   gset org.gnome.desktop.interface show-battery-percentage true
+  gset org.gnome.desktop.interface clock-show-date true
+  gset org.gnome.desktop.interface clock-show-weekday true
   gset org.gnome.shell.app-switcher current-workspace-only true
   gset org.gtk.Settings.FileChooser sort-directories-first true
   gset org.gnome.desktop.datetime automatic-timezone false
