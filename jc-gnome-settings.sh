@@ -186,7 +186,6 @@ main() {
   fi
 
   if type -P meld >/dev/null 2>&1; then
-    gset org.gnome.meld custom-font 'monospace 16'
     gset org.gnome.meld highlight-current-line false
     gset org.gnome.meld use-system-font false
     gset org.gnome.meld wrap-mode 'none'
