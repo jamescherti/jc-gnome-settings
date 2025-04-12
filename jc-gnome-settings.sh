@@ -177,9 +177,9 @@ main() {
   gset org.gnome.desktop.sound event-sounds false
   gset org.gnome.desktop.sound allow-volume-above-100-percent false
 
-  if type -P gedit >/dev/null 2>&1; then
-    gset org.gnome.gedit.preferences.editor scheme 'oblivion'
-  fi
+  # if type -P gedit >/dev/null 2>&1; then
+  #   gset org.gnome.gedit.preferences.editor scheme 'oblivion'
+  # fi
 
   if type -P gthumb >/dev/null 2>&1; then
     gset org.gnome.gthumb.browser sort-type 'file::name'
