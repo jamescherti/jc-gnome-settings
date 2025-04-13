@@ -138,16 +138,30 @@ gnome_peripheral() {
 
 gnome_power() {
   gset org.gnome.settings-daemon.plugins.power power-button-action suspend
-  gset org.gnome.settings-daemon.plugins.power idle-dim true                       # dim screen after a period of inactivity
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing      # don't suspend when on AC
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend # set suspend information
+
+  # Dim screen after a period of inactivity
+  gset org.gnome.settings-daemon.plugins.power idle-dim true
+
+  # Don't suspend when on AC
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
+
+  # Suspend on battery
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend
+
   gset org.gnome.desktop.screensaver idle-activation-enabled true
   gset org.gnome.desktop.screensaver lock-enabled true
+
   # The num of seconds after screensaver activation before locking the screen
   gset org.gnome.desktop.screensaver lock-delay 0
-  gset org.gnome.desktop.session idle-delay 300                                   # time in seconds before session is considered idle
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800     # 30 min
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900 # 15 min
+
+  # Time in seconds before session is considered idle
+  gset org.gnome.desktop.session idle-delay 300
+
+  gset org.gnome.settings-daemon.plugins.power \
+    sleep-inactive-ac-timeout 1800 # 30 min
+  gset org.gnome.settings-daemon.plugins.power \
+    sleep-inactive-battery-timeout 900 # 15 min
+
   gset org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
   gset org.gnome.desktop.wm.preferences audible-bell false
   gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
@@ -168,8 +182,6 @@ main() {
 
   gset org.gnome.desktop.interface enable-animations true
   gset org.gnome.desktop.interface show-battery-percentage true
-  gset org.gnome.desktop.interface clock-show-date true
-  gset org.gnome.desktop.interface clock-show-weekday true
   gset org.gnome.shell.app-switcher current-workspace-only true
   gset org.gtk.Settings.FileChooser sort-directories-first true
   gset org.gnome.desktop.datetime automatic-timezone false
@@ -207,6 +219,11 @@ main() {
     gset org.gnome.nautilus.window-state initial-size "(1600, 800)"
     # gset org.gnome.nautilus.window-state sidebar-width 254
   fi
+
+  gset org.gnome.desktop.datetime automatic-timezone false
+  gset org.gnome.desktop.interface clock-show-date true
+  gset org.gnome.desktop.interface clock-show-weekday true
+  gset org.gnome.desktop.interface clock-format 12h
 }
 
 init
