@@ -63,8 +63,6 @@ gset() {
 }
 
 main() {
-  run gsettings reset org.gnome.settings-daemon.plugins.media-keys home
-
   # Rebind Super+n from the default Super+s to free Super+s for activating the
   # screensaver
   gset org.gnome.shell.keybindings toggle-quick-settings "['<Super>n']"
