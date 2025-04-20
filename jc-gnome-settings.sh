@@ -146,7 +146,8 @@ gnome_power() {
   gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
 
   # Suspend on battery
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend
+  gset \
+    org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend
 
   gset org.gnome.desktop.screensaver idle-activation-enabled true
   gset org.gnome.desktop.screensaver lock-enabled true
