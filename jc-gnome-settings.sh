@@ -128,7 +128,7 @@ gnome_peripheral() {
   gset org.gnome.desktop.peripherals.touchpad disable-while-typing true
   gset org.gnome.desktop.peripherals.touchpad middle-click-emulation true
   gset org.gnome.desktop.peripherals.touchpad natural-scroll true
-  gset org.gnome.desktop.peripherals.touchpad tap-to-click true
+  gset org.gnome.desktop.peripherals.touchpad tap-to-click false
 
   gset org.gnome.desktop.peripherals.trackball accel-profile adaptive
   gset org.gnome.desktop.peripherals.trackball middle-click-emulation true
