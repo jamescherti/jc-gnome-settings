@@ -93,7 +93,7 @@ gnome_security() {
 
 gnome_mutter() {
   gset org.gnome.mutter attach-modal-dialogs false
-  gset org.gnome.mutter center-new-windows true
+  gset org.gnome.mutter center-new-windows false
 
   # Number of milliseconds a client has to respond to a ping request in order to
   # not be detected as frozen. Using 0 will disable the alive check completely.
