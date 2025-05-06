@@ -181,7 +181,6 @@ main() {
   # To eliminate the default 60 second delay when logging out
   gset org.gnome.SessionManager logout-prompt false
 
-  gset org.gnome.desktop.interface enable-animations true
   gset org.gnome.desktop.interface show-battery-percentage true
   gset org.gnome.shell.app-switcher current-workspace-only true
   gset org.gtk.Settings.FileChooser sort-directories-first true
