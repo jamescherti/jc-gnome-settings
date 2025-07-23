@@ -163,7 +163,7 @@ gnome_power() {
   gset org.gnome.settings-daemon.plugins.power \
     sleep-inactive-battery-timeout 900 # 15 min
 
-  gset org.gnome.desktop.wm.preferences button-layout 'close:appmenu'
+  gset org.gnome.desktop.wm.preferences button-layout ':close'
   gset org.gnome.desktop.wm.preferences audible-bell false
   gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
 
