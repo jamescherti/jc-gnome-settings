@@ -65,7 +65,9 @@ gset() {
 main() {
   # Rebind Super+n from the default Super+s to free Super+s for activating the
   # screensaver
-  gset org.gnome.shell.keybindings toggle-quick-settings "['<Super>n']"
+  if type -P gnome-shell &>/dev/null; then
+    gset org.gnome.shell.keybindings toggle-quick-settings "['<Super>n']"
+  fi
   gset org.gnome.settings-daemon.plugins.media-keys screensaver "['<Super>s']"
 
   gset org.gnome.desktop.wm.keybindings minimize "['<Control><Alt>d']"
