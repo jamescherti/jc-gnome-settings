@@ -6,7 +6,7 @@
 # This file is part of the jc-gnome-settings:
 # https://github.com/jamescherti/jc-gnome-settings
 #
-# Copyright (C) 2021-2025 James Cherti
+# Copyright (C) 2021-2026 James Cherti
 #
 # Distributed under terms of the MIT license.
 #
