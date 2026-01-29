@@ -84,7 +84,7 @@ main() {
   gset org.gnome.settings-daemon.plugins.media-keys \
     increase-text-size "['<Shift><Super>equal']"
 
-  gset org.gnome.shell.keybindings show-screenshot-ui "['<Control><Alt>c']"
+  # gset org.gnome.shell.keybindings show-screenshot-ui "['<Control><Alt>c']"
 
   gset org.gnome.shell.keybindings toggle-overview "['<Control><Alt>w']"
 
