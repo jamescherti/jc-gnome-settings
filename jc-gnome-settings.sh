@@ -65,13 +65,13 @@ gset() {
   return 0
 }
 
-gset_terminal() {
-  if [[ "$GNOME_TERMINAL_PROFILE" = "" ]]; then
-    GNOME_TERMINAL_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F \' '{print $2}')
-  fi
-  gset "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$GNOME_TERMINAL_PROFILE/" "$@" || return 1
-  return 0
-}
+# gset_terminal() {
+#   if [[ "$GNOME_TERMINAL_PROFILE" = "" ]]; then
+#     GNOME_TERMINAL_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F \' '{print $2}')
+#   fi
+#   gset "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$GNOME_TERMINAL_PROFILE/" "$@" || return 1
+#   return 0
+# }
 
 gnome_privacy() {
   gset org.gnome.desktop.privacy hide-identity true
