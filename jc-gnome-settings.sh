@@ -27,7 +27,6 @@
 #
 
 set -euf -o pipefail
-IFS=$'\n\t' # strict mode
 
 # shellcheck disable=SC2317
 error_handler() {
@@ -57,7 +56,7 @@ init() {
 }
 
 run() {
-  echo "$@"
+  printf "%s\n" "$*"
   "$@"
 }
 
