@@ -171,6 +171,9 @@ gnome_power() {
 }
 
 main() {
+  SCRIPT_DIR=$(dirname "$(readlink -e "${BASH_SOURCE[0]}")")
+  cd "$SCRIPT_DIR"
+
   gnome_security
   gnome_privacy
   gnome_power
