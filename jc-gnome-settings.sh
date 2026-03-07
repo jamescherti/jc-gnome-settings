@@ -226,6 +226,8 @@ main() {
   gset org.gnome.desktop.interface clock-show-date true
   gset org.gnome.desktop.interface clock-show-weekday true
   gset org.gnome.desktop.interface clock-format 12h
+
+  gset org.gnome.desktop.interface gtk-application-prefer-dark-theme true
 }
 
 init
