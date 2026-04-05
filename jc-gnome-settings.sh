@@ -65,13 +65,19 @@ gset() {
   return 0
 }
 
-# gset_terminal() {
-#   if [[ "$GNOME_TERMINAL_PROFILE" = "" ]]; then
-#     GNOME_TERMINAL_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F \' '{print $2}')
-#   fi
-#   gset "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$GNOME_TERMINAL_PROFILE/" "$@" || return 1
-#   return 0
-# }
+gset_terminal() {
+  if [[ "$GNOME_TERMINAL_PROFILE" = "" ]]; then
+    GNOME_TERMINAL_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F \' '{print $2}')
+  fi
+  gset "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$GNOME_TERMINAL_PROFILE/" "$@" || return 1
+  return 0
+}
+
+gnome_terminal() {
+  gset_terminal scroll-on-keystroke true
+  gset_terminal cursor-shape "'ibeam'"
+  gset_terminal cursor-blink-mode "'off'"
+}
 
 gnome_privacy() {
   gset org.gnome.desktop.privacy hide-identity true
@@ -179,6 +185,7 @@ main() {
   gnome_power
   gnome_peripheral
   gnome_mutter
+  gnome_terminal
 
   # To eliminate the default 60 second delay when logging out
   gset org.gnome.SessionManager logout-prompt false
