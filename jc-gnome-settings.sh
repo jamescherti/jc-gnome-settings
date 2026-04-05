@@ -45,14 +45,9 @@ init() {
     exit 1
   fi
 
-  # if ! [[ "$DESKTOP_SESSION" =~ ^gnome ]]; then
-  #   echo "Error: you need to run this script from a GNOME session."
-  #   exit 1
-  # fi
-
   cd "$(dirname "${BASH_SOURCE[0]}")"
 
-  GNOME_TERMINAL_PROFILE="" # will by set by gset_terminal
+  GNOME_TERMINAL_PROFILE="" # will be set by gset_terminal
 }
 
 run() {
@@ -61,16 +56,44 @@ run() {
 }
 
 gset() {
-  run gsettings set "$@" || return 1
-  return 0
+  local schema_path="$1"
+  local key="$2"
+  local value="$3"
+
+  # Extract the schema name (everything before the first colon, if relocatable)
+  local schema="${schema_path%%:*}"
+
+  # 1. Check if the schema exists on this system
+  if ! gsettings list-schemas | grep -qFx "$schema"; then
+    echo "Skipping: Schema '$schema' not found."
+    return 0
+  fi
+
+  # 2. Check if the key exists within the schema
+  if ! gsettings list-keys "$schema_path" 2>/dev/null | grep -qFx "$key"; then
+    echo "Skipping: Key '$key' not found in '$schema_path'."
+    return 0
+  fi
+
+  # 3. Apply the setting
+  run gsettings set "$schema_path" "$key" "$value" || return 0
 }
 
 gset_terminal() {
+  # First ensure the profile list schema exists
+  if ! gsettings list-schemas | grep -qFx "org.gnome.Terminal.ProfilesList"; then
+    return 0
+  fi
+
   if [[ "$GNOME_TERMINAL_PROFILE" = "" ]]; then
     GNOME_TERMINAL_PROFILE=$(gsettings get org.gnome.Terminal.ProfilesList default | awk -F \' '{print $2}')
   fi
-  gset "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$GNOME_TERMINAL_PROFILE/" "$@" || return 1
-  return 0
+
+  if [[ -z "$GNOME_TERMINAL_PROFILE" ]]; then
+    return 0
+  fi
+
+  gset "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$GNOME_TERMINAL_PROFILE/" "$@" || return 0
 }
 
 gnome_terminal() {
@@ -82,8 +105,8 @@ gnome_terminal() {
 gnome_privacy() {
   gset org.gnome.desktop.privacy hide-identity true
   gset org.gnome.desktop.notifications show-in-lock-screen false
-  gset org.gnome.desktop.privacy old-files-age 7        # Days to keep trash/temp files
-  gset org.gnome.desktop.privacy recent-files-max-age 2 # Days to remember recently used files
+  gset org.gnome.desktop.privacy old-files-age 7
+  gset org.gnome.desktop.privacy recent-files-max-age 2
   gset org.gnome.desktop.privacy remember-recent-files false
   gset org.gnome.desktop.privacy remove-old-temp-files true
   gset org.gnome.desktop.privacy show-full-name-in-top-bar false
@@ -99,20 +122,8 @@ gnome_security() {
 gnome_mutter() {
   gset org.gnome.mutter attach-modal-dialogs false
   gset org.gnome.mutter center-new-windows false
-
-  # Number of milliseconds a client has to respond to a ping request in order to
-  # not be detected as frozen. Using 0 will disable the alive check completely.
-  # I changed it to 60 because certain programs do not respond to mouse/touchpad
-  # after a few seconds.
   gset org.gnome.mutter check-alive-timeout 60000
-
-  # false To prevent the bug "How to stop windows from changing size
-  # (maximising) when dragging to screen edge in the GNOME Shell?"
-  # https://superuser.com/questions/968900/how-to-stop-windows-from-changing-size-maximising-when-dragging-to-screen-edge
   gset org.gnome.mutter edge-tiling true
-
-  # Another fix for
-  # https://askubuntu.com/questions/154377/how-do-i-disable-auto-maximizing-of-newly-launched-windows-in-gnome
   gset org.gnome.mutter auto-maximize false
 }
 
@@ -126,9 +137,6 @@ gnome_peripheral() {
   gset org.gnome.desktop.peripherals.mouse accel-profile adaptive
   gset org.gnome.desktop.peripherals.mouse middle-click-emulation true
   gset org.gnome.desktop.peripherals.mouse natural-scroll true
-  # gset org.gnome.desktop.peripherals.mouse natural-scroll false
-  # gset org.gnome.desktop.peripherals.mouse speed 1
-  # gset org.gnome.desktop.peripherals.touchpad speed 0.8
 
   gset org.gnome.desktop.peripherals.touchpad disable-while-typing true
   gset org.gnome.desktop.peripherals.touchpad middle-click-emulation true
@@ -138,41 +146,26 @@ gnome_peripheral() {
   gset org.gnome.desktop.peripherals.trackball accel-profile adaptive
   gset org.gnome.desktop.peripherals.trackball middle-click-emulation true
   gset org.gnome.desktop.peripherals.trackball scroll-wheel-emulation-button 3
-
 }
 
 gnome_power() {
   gset org.gnome.settings-daemon.plugins.power power-button-action suspend
-
-  # Dim screen after a period of inactivity
   gset org.gnome.settings-daemon.plugins.power idle-dim true
-
-  # Don't suspend when on AC
   gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
-
-  # Suspend on battery
-  gset \
-    org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend
 
   gset org.gnome.desktop.screensaver idle-activation-enabled true
   gset org.gnome.desktop.screensaver lock-enabled true
-
-  # The num of seconds after screensaver activation before locking the screen
   gset org.gnome.desktop.screensaver lock-delay 0
 
-  # Time in seconds before session is considered idle
   gset org.gnome.desktop.session idle-delay 300
 
-  gset org.gnome.settings-daemon.plugins.power \
-    sleep-inactive-ac-timeout 1800 # 30 min
-  gset org.gnome.settings-daemon.plugins.power \
-    sleep-inactive-battery-timeout 900 # 15 min
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 
   gset org.gnome.desktop.wm.preferences button-layout ':close'
   gset org.gnome.desktop.wm.preferences audible-bell false
   gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
-
-  # Resize with Super/Alt+Right Click
   gset org.gnome.desktop.wm.preferences resize-with-right-button true
 }
 
@@ -187,47 +180,31 @@ main() {
   gnome_mutter
   gnome_terminal
 
-  # To eliminate the default 60 second delay when logging out
   gset org.gnome.SessionManager logout-prompt false
-
   gset org.gnome.desktop.interface show-battery-percentage true
   gset org.gnome.shell.app-switcher current-workspace-only true
   gset org.gtk.Settings.FileChooser sort-directories-first true
   gset org.gnome.desktop.datetime automatic-timezone false
-
   gset org.gnome.desktop.sound event-sounds false
   gset org.gnome.desktop.sound allow-volume-above-100-percent false
 
-  # if type -P gedit >/dev/null 2>&1; then
-  #   gset org.gnome.gedit.preferences.editor scheme 'oblivion'
-  # fi
+  gset org.gnome.gthumb.browser sort-type 'file::name'
+  gset org.gnome.gthumb.comments synchronize false
+  gset org.gnome.gthumb.browser go-to-last-location false
 
-  if type -P gthumb >/dev/null 2>&1; then
-    gset org.gnome.gthumb.browser sort-type 'file::name'
-    gset org.gnome.gthumb.comments synchronize false
-    gset org.gnome.gthumb.browser go-to-last-location false
-  fi
+  gset org.gnome.meld highlight-current-line false
+  gset org.gnome.meld use-system-font false
+  gset org.gnome.meld wrap-mode 'none'
+  gset org.gnome.meld.WindowState is-maximized true
 
-  if type -P meld >/dev/null 2>&1; then
-    gset org.gnome.meld highlight-current-line false
-    gset org.gnome.meld use-system-font false
-    gset org.gnome.meld wrap-mode 'none'
-    gset org.gnome.meld.WindowState is-maximized true
-  fi
+  gset org.gnome.Evince page-cache-size 100
 
-  if type -P evince >/dev/null 2>&1; then
-    gset org.gnome.Evince page-cache-size 100
-  fi
-
-  if type -P nautilus >/dev/null 2>&1; then
-    gset org.gnome.nautilus.preferences click-policy single # single / double
-    gset org.gnome.nautilus.preferences default-sort-order name
-    gset org.gnome.nautilus.preferences show-directory-item-counts never
-    gset org.gnome.nautilus.preferences show-image-thumbnails always
-    gset org.gnome.nautilus.preferences open-folder-on-dnd-hover false
-    gset org.gnome.nautilus.window-state initial-size "(1600, 800)"
-    # gset org.gnome.nautilus.window-state sidebar-width 254
-  fi
+  gset org.gnome.nautilus.preferences click-policy single
+  gset org.gnome.nautilus.preferences default-sort-order name
+  gset org.gnome.nautilus.preferences show-directory-item-counts never
+  gset org.gnome.nautilus.preferences show-image-thumbnails always
+  gset org.gnome.nautilus.preferences open-folder-on-dnd-hover false
+  gset org.gnome.nautilus.window-state initial-size "(1600, 800)"
 
   gset org.gnome.desktop.datetime automatic-timezone false
   gset org.gnome.desktop.interface clock-show-date true
