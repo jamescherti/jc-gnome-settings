@@ -1,7 +1,7 @@
 # jc-gnome-settings - JC's GNOME Settings
 ![License](https://img.shields.io/github/license/jamescherti/jc-gnome-settings)
 
-This project provides the `jc-gnome-settings.sh` script, which holds James Cherti's settings to customize the GNOME desktop environment, including window management, notifications, desktop behavior, keyboard settings, and more, to enhance the user experience.
+The [jc-gnome-settings](https://github.com/jamescherti/jc-gnome-settings) repository provides the `jc-gnome-settings.sh` script, which holds James Cherti's settings to customize the GNOME desktop environment, including window management, notifications, desktop behavior, keyboard settings, and more, to enhance the user experience.
 
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 ## Table of Contents
