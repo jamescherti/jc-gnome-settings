@@ -163,7 +163,9 @@ gnome_power() {
   gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
   gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 
-  gset org.gnome.desktop.wm.preferences button-layout ':close'
+  # Close button on the left
+  gset org.gnome.desktop.wm.preferences button-layout 'close:'
+
   gset org.gnome.desktop.wm.preferences audible-bell false
   gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
   gset org.gnome.desktop.wm.preferences resize-with-right-button true
