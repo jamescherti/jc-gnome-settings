@@ -120,8 +120,8 @@ gnome_security() {
 }
 
 gnome_mutter() {
-  gset org.gnome.mutter attach-modal-dialogs false
-  gset org.gnome.mutter center-new-windows false
+  gset org.gnome.mutter center-new-windows true
+  gset org.gnome.mutter attach-modal-dialogs true
   gset org.gnome.mutter check-alive-timeout 60000
   gset org.gnome.mutter edge-tiling true
   gset org.gnome.mutter auto-maximize false
