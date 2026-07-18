@@ -103,14 +103,49 @@ gnome_terminal() {
 }
 
 gnome_privacy() {
+  # Prevents GNOME from displaying user identity or technical details in crash
+  # logs and public reports.
   gset org.gnome.desktop.privacy hide-identity true
+
+  # Disables notification banners on the lock screen to prevent unauthorized
+  # viewing of sensitive alerts.
   gset org.gnome.desktop.notifications show-in-lock-screen false
+
+  # Sets the threshold to 7 days before temporary or trash files are considered
+  # old and eligible for removal.
   gset org.gnome.desktop.privacy old-files-age 7
+
+  # Retains file history in the "Recent" list for a maximum of 14 days before
+  # automatic eviction.
   gset org.gnome.desktop.privacy recent-files-max-age 14
+
+  # Enables the system to keep track of recently accessed files within
+  # application choosers and Nautilus.
   gset org.gnome.desktop.privacy remember-recent-files true
+
+  # Automatically purges temporary files that have exceeded the defined age
+  # threshold to reclaim disk space.
   gset org.gnome.desktop.privacy remove-old-temp-files true
+
+  # Automatically empty the trash to reclaim disk space.
+  gset org.gnome.desktop.privacy remove-old-trash-files true
+
+  # Hides the user's full name from the top panel interface, displaying only the
+  # username or system status.
   gset org.gnome.desktop.privacy show-full-name-in-top-bar false
+
+  # Disables third-party applications from populating search results when using
+  # the Activities overview.
   gset org.gnome.desktop.search-providers disable-external true
+
+  # Prevents sending software usage statistics to GNOME servers.
+  gset org.gnome.desktop.privacy send-software-usage-stats false
+
+  # Disables automatic technical problem reporting.
+  gset org.gnome.desktop.privacy report-technical-problems false
+
+  # Disables system-wide location services for enhanced privacy.
+  gset org.gnome.system.location enabled false
 }
 
 gnome_security() {
@@ -153,22 +188,32 @@ gnome_power() {
   gset org.gnome.settings-daemon.plugins.power idle-dim true
   gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type nothing
   gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type suspend
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
+  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
 
   gset org.gnome.desktop.screensaver idle-activation-enabled true
   gset org.gnome.desktop.screensaver lock-enabled true
   gset org.gnome.desktop.screensaver lock-delay 0
 
   gset org.gnome.desktop.session idle-delay 300
+}
 
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 1800
-  gset org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
-
+gnome_wm() {
   # Close button on the left
   gset org.gnome.desktop.wm.preferences button-layout 'close:'
-
   gset org.gnome.desktop.wm.preferences audible-bell false
   gset org.gnome.desktop.wm.preferences mouse-button-modifier '<Alt>'
   gset org.gnome.desktop.wm.preferences resize-with-right-button true
+}
+
+gnome_interface() {
+  gset org.gnome.desktop.interface show-battery-percentage true
+  gset org.gnome.desktop.datetime automatic-timezone false
+  gset org.gnome.desktop.interface clock-format 12h
+  gset org.gnome.desktop.interface clock-show-date true
+  gset org.gnome.desktop.interface clock-show-weekday true
+  gset org.gnome.desktop.sound allow-volume-above-100-percent false
+  gset org.gnome.desktop.sound event-sounds false
 }
 
 main() {
@@ -181,37 +226,38 @@ main() {
   gnome_peripheral
   gnome_mutter
   gnome_terminal
+  gnome_wm
+  gnome_interface
 
   gset org.gnome.SessionManager logout-prompt false
-  gset org.gnome.desktop.interface show-battery-percentage true
   gset org.gnome.shell.app-switcher current-workspace-only true
   gset org.gtk.Settings.FileChooser sort-directories-first true
-  gset org.gnome.desktop.datetime automatic-timezone false
-  gset org.gnome.desktop.sound event-sounds false
-  gset org.gnome.desktop.sound allow-volume-above-100-percent false
 
-  gset org.gnome.gthumb.browser sort-type 'file::name'
-  gset org.gnome.gthumb.comments synchronize false
-  gset org.gnome.gthumb.browser go-to-last-location false
+  if type -P gthumb &>/dev/null; then
+    gset org.gnome.gthumb.browser sort-type 'file::name'
+    gset org.gnome.gthumb.comments synchronize false
+    gset org.gnome.gthumb.browser go-to-last-location false
+  fi
 
-  gset org.gnome.meld highlight-current-line false
-  gset org.gnome.meld use-system-font false
-  gset org.gnome.meld wrap-mode 'none'
-  gset org.gnome.meld.WindowState is-maximized true
+  if type -P meld &>/dev/null; then
+    gset org.gnome.meld highlight-current-line false
+    gset org.gnome.meld use-system-font false
+    gset org.gnome.meld wrap-mode 'none'
+    gset org.gnome.meld.WindowState is-maximized true
+  fi
 
-  gset org.gnome.Evince page-cache-size 100
+  if type -P evince &>/dev/null; then
+    gset org.gnome.Evince page-cache-size 100
+  fi
 
-  gset org.gnome.nautilus.preferences click-policy single
-  gset org.gnome.nautilus.preferences default-sort-order name
-  gset org.gnome.nautilus.preferences show-directory-item-counts never
-  gset org.gnome.nautilus.preferences show-image-thumbnails always
-  gset org.gnome.nautilus.preferences open-folder-on-dnd-hover false
-  gset org.gnome.nautilus.window-state initial-size "(1600, 800)"
-
-  gset org.gnome.desktop.datetime automatic-timezone false
-  gset org.gnome.desktop.interface clock-show-date true
-  gset org.gnome.desktop.interface clock-show-weekday true
-  gset org.gnome.desktop.interface clock-format 12h
+  if type -P nautilus &>/dev/null; then
+    gset org.gnome.nautilus.preferences click-policy single
+    gset org.gnome.nautilus.preferences default-sort-order name
+    gset org.gnome.nautilus.preferences show-directory-item-counts never
+    gset org.gnome.nautilus.preferences show-image-thumbnails always
+    gset org.gnome.nautilus.preferences open-folder-on-dnd-hover false
+    gset org.gnome.nautilus.window-state initial-size "(1600, 800)"
+  fi
 }
 
 init
