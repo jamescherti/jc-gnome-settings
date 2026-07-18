@@ -106,8 +106,8 @@ gnome_privacy() {
   gset org.gnome.desktop.privacy hide-identity true
   gset org.gnome.desktop.notifications show-in-lock-screen false
   gset org.gnome.desktop.privacy old-files-age 7
-  gset org.gnome.desktop.privacy recent-files-max-age 2
-  gset org.gnome.desktop.privacy remember-recent-files false
+  gset org.gnome.desktop.privacy recent-files-max-age 14
+  gset org.gnome.desktop.privacy remember-recent-files true
   gset org.gnome.desktop.privacy remove-old-temp-files true
   gset org.gnome.desktop.privacy show-full-name-in-top-bar false
   gset org.gnome.desktop.search-providers disable-external true
