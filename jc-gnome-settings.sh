@@ -136,7 +136,12 @@ gnome_privacy() {
 
   # Disables third-party applications from populating search results when using
   # the Activities overview.
-  gset org.gnome.desktop.search-providers disable-external true
+  gset org.gnome.desktop.search-providers disable-external false
+  gset org.gnome.desktop.search-providers disabled \
+    "['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Photos.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Calculator.desktop']"
+
+  gset org.gnome.desktop.search-providers sort-order \
+    "['org.gnome.Settings.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Contacts.desktop', 'org.gnome.Documents.desktop']"
 
   # Prevents sending software usage statistics to GNOME servers.
   gset org.gnome.desktop.privacy send-software-usage-stats false
