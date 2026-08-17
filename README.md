@@ -9,23 +9,23 @@ The [jc-gnome-settings](https://github.com/jamescherti/jc-gnome-settings) reposi
 
 ## Usage
 
-1. Clone the repository:
+Clone the repository:
 
-   ```
-   git clone https://github.com/jamescherti/jc-gnome-settings
-   ```
+```
+git clone https://github.com/jamescherti/jc-gnome-settings
+```
 
-2. Navigate to the repository directory:
+Navigate to the repository directory:
 
-   ```
-   cd jc-gnome-settings
-   ```
+```
+cd jc-gnome-settings
+```
 
-3. Run the script to configure GNOME:
+Run the script to configure GNOME:
 
-   ```
-   ./jc-gnome-settings.sh
-   ```
+```
+./jc-gnome-settings.sh
+```
 
 ## Author and License
 
