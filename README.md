@@ -4,7 +4,7 @@
 - Author: James Cherti <[https://www.jamescherti.com/](https://www.jamescherti.com/)>
 - License: MIT
 
-The [jc-gnome-settings](https://github.com/jamescherti/jc-gnome-settings) repository provides the `jc-gnome-settings.sh` script, which holds James Cherti's settings to customize the GNOME desktop environment, including window management, notifications, desktop behavior, keyboard settings, and more, to enhance the user experience.
+The [jc-gnome-settings](https://github.com/jamescherti/jc-gnome-settings) repository provides the `install.sh` script, which holds James Cherti's settings to customize the GNOME desktop environment, including window management, notifications, desktop behavior, keyboard settings, and more, to enhance the user experience.
 
 ## Requirements
 
@@ -27,7 +27,7 @@ cd jc-gnome-settings
 Run the script to configure GNOME:
 
 ```
-./jc-gnome-settings.sh
+./install.sh
 ```
 
 ## Author and License
