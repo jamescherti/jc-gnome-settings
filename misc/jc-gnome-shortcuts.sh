@@ -30,7 +30,6 @@
 #
 
 set -euf -o pipefail
-IFS=$'\n\t'
 
 # shellcheck disable=SC2317
 error_handler() {
